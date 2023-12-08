@@ -3,6 +3,7 @@ package com.example.madrascheck.global.error.exception;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -21,10 +22,9 @@ public enum ErrorCode {
     EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),
     LOGIN_INPUT_INVALID(400, "M002", "Login input is invalid"),
 
-    // Coupon
-    COUPON_ALREADY_USE(400, "CO001", "Coupon was already used"),
-    COUPON_EXPIRE(400, "CO002", "Coupon was already expired")
-    ;
+    // FileExtension
+    ALREADY_EXISTS_FILE_EXTENSION(HttpStatus.BAD_REQUEST.value(), "FE001", "이미 존재하는 파일 확장자입니다");
+
     private final String code;
     private final String message;
     private int status;
