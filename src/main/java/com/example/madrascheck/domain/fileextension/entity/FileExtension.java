@@ -2,10 +2,10 @@ package com.example.madrascheck.domain.fileextension.entity;
 
 import com.example.madrascheck.domain.fileextension.model.Status;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@ToString
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "file_extension")
 @Entity
