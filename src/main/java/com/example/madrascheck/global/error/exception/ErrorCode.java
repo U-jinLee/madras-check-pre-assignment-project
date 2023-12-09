@@ -20,7 +20,10 @@ public enum ErrorCode {
     // FileExtension
     ALREADY_EXISTS_FILE_EXTENSION(HttpStatus.BAD_REQUEST.value(), "FE001", "이미 존재하는 파일 확장자입니다"),
     FILE_EXTENSION_NOT_FOUND(HttpStatus.BAD_REQUEST.value(), "FE002", "존재하지 않는 파일 확장자입니다"),
-    FILE_EXTENSION_FULL(HttpStatus.BAD_REQUEST.value(), "FE003", "제한할 수 있는 파일 확장자는 200개를 넘을 수 없습니다");
+    FILE_EXTENSION_FULL(HttpStatus.BAD_REQUEST.value(), "FE003", "제한할 수 있는 파일 확장자는 200개를 넘을 수 없습니다"),
+    // File
+    NOT_ALLOWED_EXTENSION(HttpStatus.BAD_REQUEST.value(), "F001", "허용되지 않는 파일 확장자입니다"),
+    FILE_IS_NULL(HttpStatus.BAD_REQUEST.value(), "F002", "파일이 비었습니다");
 
     private final String code;
     private final String message;
