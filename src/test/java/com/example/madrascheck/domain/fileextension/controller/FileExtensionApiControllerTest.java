@@ -50,6 +50,25 @@ class FileExtensionApiControllerTest extends IntegrationTest {
     }
 
     @Test
+    void 확장자_최대_갯수_검사() throws Exception {
+        //given
+        fileExtensionSetUp.save(200);
+
+        String name = "jin";
+        FileExtensionPostDto.Request request =
+                FileExtensionPostDto.Request.from(name);
+        //when
+        postFileExtensionResultAction(request)
+                //then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").exists())
+                .andExpect(jsonPath("$.status").exists())
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors").exists())
+                .andExpect(jsonPath("$.code").exists());
+    }
+
+    @Test
     void DEFAULT_확장자_입력_성공() throws Exception {
         //given
         String name = "bat";
