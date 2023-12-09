@@ -9,7 +9,6 @@
 - [API Reference](#api-reference)
 - [프로젝트 진행 및 이슈 관리](#프로젝트-진행-및-이슈-관리)
 - [ERD](#ERD)
-- [TIL 및 회고](#til-및-회고)
 
 <br>
 
@@ -54,7 +53,7 @@
 > ![coverage](src/main/resources/static/image/test.png)
 
 ## API Reference
-> [![POST_MAN](https://img.shields.io/badge/POSTMAN_-CLICK🖱-%23000000.svg?style=for-the-badge&logo=postman&logoColor=white)](https://documenter.getpostman.com/view/18383272/2s9YXo2L9p)<br>
+> [![POST_MAN](https://img.shields.io/badge/asciidoctor_-CLICK🖱-%23000000.svg?style=for-the-badge&logo=asciidoctor&logoColor=E40046)](https://documenter.getpostman.com/view/18383272/2s9YXo2L9p)<br>
 > ![Project_](src/main/resources/static/image/api_reference.png)
 
 ## 프로젝트 진행 및 이슈 관리
