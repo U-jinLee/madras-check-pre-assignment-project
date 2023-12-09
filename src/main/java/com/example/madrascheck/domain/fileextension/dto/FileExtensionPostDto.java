@@ -22,17 +22,21 @@ public class FileExtensionPostDto {
         @Size(min = 1, max = 20, message = "파일 확장자는 1자 이상 20자 이하로 입력해주세요")
         private String name;
 
-        @NotNull(message = "파일 확장자의 상태를 입력해주세요")
-        private Status status;
-
-        public static Request of(String name, Status status) {
-            return new Request(name, status);
+        public static Request from(String name) {
+            return new Request(name);
         }
 
-        public FileExtension toEntity() {
+        public FileExtension toDefaultEntity() {
             return FileExtension.builder()
                     .name(name)
-                    .status(status)
+                    .status(Status.DEFAULT)
+                    .build();
+        }
+
+        public FileExtension toCustomEntity() {
+            return FileExtension.builder()
+                    .name(name)
+                    .status(Status.CUSTOM)
                     .build();
         }
 
