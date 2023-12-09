@@ -42,10 +42,24 @@ class FileExtensionApiControllerTest extends IntegrationTest {
         postFileExtensionResultAction(request)
                 //then
                 .andExpect(status().isBadRequest())
+                .andDo(document("errors",
+                        responseFields(
+                                fieldWithPath("message").description("에러 메시지"),
+                                fieldWithPath("status").description("에러 상태"),
+                                fieldWithPath("errors").description("에러 목록"),
+                                fieldWithPath("errors[].field").description("에러 필드"),
+                                fieldWithPath("errors[].value").description("에러 값"),
+                                fieldWithPath("errors[].reason").description("에러 이유"),
+                                fieldWithPath("code").description("에러 코드")
+                        )
+                ))
                 .andExpect(jsonPath("$.message").exists())
                 .andExpect(jsonPath("$.status").exists())
                 .andExpect(jsonPath("$.errors").isArray())
                 .andExpect(jsonPath("$.errors").exists())
+                .andExpect(jsonPath("$.errors[0].field").exists())
+                .andExpect(jsonPath("$.errors[0].value").exists())
+                .andExpect(jsonPath("$.errors[0].reason").exists())
                 .andExpect(jsonPath("$.code").exists());
     }
 
@@ -141,11 +155,25 @@ class FileExtensionApiControllerTest extends IntegrationTest {
         mvc.perform(get("/api/file-extensions")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andDo(document("get-file-extension",
+                        responseFields(
+                                fieldWithPath("count").description("CUSTOM 금지 확장자 갯수"),
+                                fieldWithPath("defaultExtensions").description("기본 확장자 목록"),
+                                fieldWithPath("defaultExtensions[].id").description("기본 확장자 ID"),
+                                fieldWithPath("defaultExtensions[].name").description("기본 확장자명"),
+                                fieldWithPath("defaultExtensions[].active").description("기본 확장자 활성 상태"),
+                                fieldWithPath("customExtensions").description("사용자 확장자 목록"),
+                                fieldWithPath("customExtensions[].id").description("사용자 확장자 ID"),
+                                fieldWithPath("customExtensions[].name").description("사용자 확장자명")
+                        )
+                ))
                 //then
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.count").exists())
                 .andExpect(jsonPath("$.defaultExtensions").isArray())
                 .andExpect(jsonPath("$.defaultExtensions[0].id").exists())
                 .andExpect(jsonPath("$.defaultExtensions[0].name").exists())
+                .andExpect(jsonPath("$.defaultExtensions[0].active").exists())
                 .andExpect(jsonPath("$.customExtensions").isArray())
                 .andExpect(jsonPath("$.customExtensions[0].id").exists())
                 .andExpect(jsonPath("$.customExtensions[0].name").exists());

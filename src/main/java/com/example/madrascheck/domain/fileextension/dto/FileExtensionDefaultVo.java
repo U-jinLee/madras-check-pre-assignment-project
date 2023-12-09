@@ -20,11 +20,9 @@ public class FileExtensionDefaultVo {
         return new FileExtensionDefaultVo(id, defaultExtension.name().toLowerCase(), activation);
     }
 
-    public void setId(Long id) {
+    public void activateFileExtension(long id) {
         this.id = id;
-    }
-    public void setActivation(boolean activation) {
-        this.isActive = activation;
+        this.isActive = true;
     }
 
 }

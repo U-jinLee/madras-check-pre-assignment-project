@@ -1,0 +1,101 @@
+= 마드라스체크 사전 과제 REST API 문서
+이유진;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+[[overview]]
+= 개요
+
+[[overview-http-verbs]]
+== HTTP 동사
+
+본 REST API에서 사용하는 HTTP 동사(verbs)는 가능한한 표준 HTTP와 REST 규약을 따릅니다.
+
+|===
+| 동사 | 용례
+
+| `GET`
+| 리소스를 가져올 때 사용
+
+| `POST`
+| 새 리소스를 만들 때 사용
+
+| `PUT`
+| 기존 리소스를 수정할 때 사용
+
+| `PATCH`
+| 기존 리소스의 일부를 수정할 때 사용
+
+| `DELETE`
+| 기존 리소스를 삭제할 떄 사용
+|===
+
+[[overview-http-status-codes]]
+== HTTP 상태 코드
+
+본 REST API에서 사용하는 HTTP 상태 코드는 가능한한 표준 HTTP와 REST 규약을 따릅니다.
+
+|===
+| 상태 코드 | 용례
+
+| `200 OK`
+| 요청을 성공적으로 처리함
+
+| `201 Created`
+| 새 리소스를 성공적으로 생성함
+
+| `204 No Content`
+| 기존 리소스를 성공적으로 수정 or 삭제함
+
+| `400 Bad Request`
+| 잘못된 요청을 보낸 경우. 응답 본문에 더 오류에 대한 정보가 담겨있다.
+
+| `404 Not Found`
+| 요청한 리소스가 없음.
+|===
+
+[[overview-errors]]
+== 오류
+
+에러 응답이 발생했을 때 (상태 코드 => 400), 본문에 해당 문제를 기술한 JSON 객체가 담겨있다. 에러 객체는 다음의 구조를 따른다.
+
+include::{snippets}/errors/response-fields.adoc[]
+
+예를 들어, 잘못된 요청으로 채용 공고를 만들려고 했을 때 다음과 같은 `400 Bad Request` 응답을 받는다.
+
+include::{snippets}/errors/http-response.adoc[]
+
+[[resources]]
+= 리소스
+
+[[resources-file-extensions]]
+== 파일 확장자
+
+파일 확장자 리소스는 파일 확장자와 그에 대한 설명을 관리한다.
+
+[[resources-file-extensions-create]]
+=== 금지 파일 확장자 생성
+
+`POST` 요청을 통해 금지 파일 확장자를 생성할 수 있다.
+
+operation::post-file-extension[snippets='curl-request,http-request,request-fields,http-response,response-fields']
+
+[[resources-file-extensions-list-get]]
+=== 금지 파일 확장자 조회
+
+`GET` 요청을 사용하여 금지된 파일 확장자 리스트를 가져온다. 활성화된 DEFAULT 값은 Id와 active가 true인 값이다.
+
+operation::get-file-extension[snippets='curl-request,http-request,http-response,response-fields']
+
+[[resources-recruitments-delete]]
+=== 금지 파일 확장자 삭제
+
+`DELETE` 요청을 사용해서 금지 파일 확장자를 삭제할 수 있다.
+
+operation::delete-file-extension[snippets='curl-request,path-parameters,http-request,http-response']

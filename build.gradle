@@ -16,6 +16,8 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+
+    asciidoctorExtensions
 }
 
 repositories {
@@ -45,6 +47,8 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test'
 
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
     // QueryDsl
 //    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
 //    implementation "com.querydsl:querydsl-core:${queryDslVersion}"
@@ -62,7 +66,16 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+bootJar {
+    dependsOn asciidoctor
+    copy {
+        from file("build/docs/asciidoc")
+        into 'src/main/resources/static/docs'
+    }
+}
+
 tasks.named('asciidoctor') {
+    configurations 'asciidoctorExtensions'
     inputs.dir snippetsDir
     dependsOn test
 }
