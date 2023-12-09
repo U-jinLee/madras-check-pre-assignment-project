@@ -12,8 +12,24 @@ public class FileExtensionSetUp {
     @Autowired
     FileExtensionRepository fileExtensionRepository;
 
+    public void saveList() {
+        fileExtensionRepository.save(buildFileExtension("bat", Status.DEFAULT));
+        fileExtensionRepository.save(buildFileExtension("cmd", Status.DEFAULT));
+        fileExtensionRepository.save(buildFileExtension("com", Status.DEFAULT));
+        fileExtensionRepository.save(buildFileExtension("sh", Status.CUSTOM));
+        fileExtensionRepository.save(buildFileExtension("ju", Status.CUSTOM));
+        fileExtensionRepository.save(buildFileExtension("ch", Status.CUSTOM));
+    }
+
     public FileExtension save() {
         return fileExtensionRepository.save(buildFileExtension());
+    }
+
+    private FileExtension buildFileExtension(String name, Status status) {
+        return FileExtension.builder()
+                .name(name)
+                .status(status)
+                .build();
     }
 
     private FileExtension buildFileExtension() {

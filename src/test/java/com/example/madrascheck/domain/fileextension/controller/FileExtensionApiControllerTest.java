@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -112,4 +113,23 @@ class FileExtensionApiControllerTest extends IntegrationTest {
                 //then
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    void 확장자_리스트_가져오기() throws Exception {
+        //given
+        fileExtensionSetUp.saveList();
+        //when
+        mvc.perform(get("/api/file-extensions")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                //then
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.defaultExtensions").isArray())
+                .andExpect(jsonPath("$.defaultExtensions[0].id").exists())
+                .andExpect(jsonPath("$.defaultExtensions[0].name").exists())
+                .andExpect(jsonPath("$.customExtensions").isArray())
+                .andExpect(jsonPath("$.customExtensions[0].id").exists())
+                .andExpect(jsonPath("$.customExtensions[0].name").exists());
+    }
+
 }
