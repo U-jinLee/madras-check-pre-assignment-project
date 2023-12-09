@@ -1,6 +1,22 @@
 document.querySelectorAll(".default-file-extension").forEach(element => {
     element.addEventListener("click", () => {
 
+        if (element.checked == false) {
+            fetch("/api/file-extensions/" + element.dataset.id, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => {
+                    if(response.ok == true) {
+                        location.href = "";
+                    }
+                })
+
+            return;
+        }
+
         const request = {
             name: element.value
         }

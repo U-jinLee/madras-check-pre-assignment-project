@@ -17,7 +17,8 @@
         <div class="selection-format">
             {{#defaultExtensions}}
                 <label>
-                    <input class="default-file-extension" type="checkbox" name="fix-group" value={{name}} {{#isActive}}checked{{/isActive}}{{^isActive}}{{/isActive}}>
+                    <input class="default-file-extension" type="checkbox" name="fix-group" value={{name}} {{#isActive}}checked{{/isActive}}{{^isActive}}{{/isActive}}
+                            data-id = {{id}}>
                     {{name}}
                 </label>
             {{/defaultExtensions}}

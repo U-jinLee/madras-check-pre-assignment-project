@@ -29,12 +29,15 @@ public class FileExtensionQueryService {
 
 
         List<FileExtensionDefaultVo> defaultVos =
-                Arrays.stream(DefaultExtension.values()).map(extension -> FileExtensionDefaultVo.from(extension, false)).toList();
+                Arrays.stream(DefaultExtension.values()).map(extension -> FileExtensionDefaultVo.from(0L, extension, false)).toList();
 
         defaultVos.forEach(defaultVo ->
             getFileExtensionVos(extensions, Status.DEFAULT).stream()
                     .filter(extension -> extension.getName().equals(defaultVo.getName()))
-                    .findFirst().ifPresent(extension -> defaultVo.setActivation(true))
+                    .findFirst().ifPresent(extension -> {
+                        defaultVo.setId(extension.getId());
+                        defaultVo.setActivation(true);
+                    })
         );
 
         return FileExtensionsGetDto.Response.from(

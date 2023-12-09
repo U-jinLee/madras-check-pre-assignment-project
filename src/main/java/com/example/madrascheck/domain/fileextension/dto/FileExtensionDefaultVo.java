@@ -12,11 +12,16 @@ import lombok.ToString;
 @NoArgsConstructor
 public class FileExtensionDefaultVo {
 
+    private Long id;
     private String name;
     private boolean isActive;
 
-    public static FileExtensionDefaultVo from(DefaultExtension defaultExtension, boolean activation) {
-        return new FileExtensionDefaultVo(defaultExtension.name().toLowerCase(), activation);
+    public static FileExtensionDefaultVo from(Long id, DefaultExtension defaultExtension, boolean activation) {
+        return new FileExtensionDefaultVo(id, defaultExtension.name().toLowerCase(), activation);
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     public void setActivation(boolean activation) {
         this.isActive = activation;
