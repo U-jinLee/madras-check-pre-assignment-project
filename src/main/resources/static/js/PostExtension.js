@@ -13,9 +13,19 @@ document.querySelectorAll(".default-file-extension").forEach(element => {
             body: JSON.stringify(request)
         })
             .then(response => {
-                if (response.ok == true) {
-                    console.log(response.body);
+
+                if(response.ok == true) {
+                    location.href = "";
                 }
+                if(response.ok == false) {
+                    response.json().then(data => {
+
+                        let message = data.message == "Invalid Input Value" ? data.errors[0].reason : data.message;
+                        alert(message);
+
+                    })
+                }
+
 
             })
 
@@ -50,6 +60,7 @@ document.getElementById("add-button").addEventListener("click", () => {
 
                 })
             }
+
         })
 
 });

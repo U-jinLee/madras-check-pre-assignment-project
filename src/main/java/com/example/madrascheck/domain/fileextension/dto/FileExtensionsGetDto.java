@@ -15,10 +15,10 @@ public class FileExtensionsGetDto {
     public static class Response {
 
         private long count;
-        private List<FileExtensionVo> defaultExtensions = new ArrayList<>();
+        private List<FileExtensionDefaultVo> defaultExtensions = new ArrayList<>();
         private List<FileExtensionVo> customExtensions = new ArrayList<>();
 
-        public static Response from(List<FileExtensionVo> defaultExtensions, List<FileExtensionVo> customExtensions) {
+        public static Response from(List<FileExtensionDefaultVo> defaultExtensions, List<FileExtensionVo> customExtensions) {
             return new Response(customExtensions.size(), defaultExtensions, customExtensions);
         }
 

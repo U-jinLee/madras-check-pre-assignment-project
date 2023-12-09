@@ -15,34 +15,12 @@
             <span>고정 확장자</span>
         </div>
         <div class="selection-format">
-            <label>
-                <input class="default-file-extension" type="checkbox" name="fix-group" value="bat">
-                bat
-            </label>
-            <label>
-                <input class="default-file-extension" type="checkbox" name="fix-group" value="cmd">
-                cmd
-            </label>
-            <label>
-                <input class="default-file-extension" type="checkbox" name="fix-group" value="com">
-                com
-            </label>
-            <label>
-                <input class="default-file-extension" type="checkbox" name="fix-group" value="cpl">
-                cpl
-            </label>
-            <label>
-                <input class="default-file-extension" type="checkbox" name="fix-group" value="exe">
-                exe
-            </label>
-            <label>
-                <input class="default-file-extension" type="checkbox" name="fix-group" value="scr">
-                scr
-            </label>
-            <label>
-                <input class="default-file-extension" type="checkbox" name="fix-group" value="js">
-                js
-            </label>
+            {{#defaultExtensions}}
+                <label>
+                    <input class="default-file-extension" type="checkbox" name="fix-group" value={{name}} {{#isActive}}checked{{/isActive}}{{^isActive}}{{/isActive}}>
+                    {{name}}
+                </label>
+            {{/defaultExtensions}}
         </div>
     </div>
 </section>
