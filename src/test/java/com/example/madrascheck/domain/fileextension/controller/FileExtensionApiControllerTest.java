@@ -22,12 +22,11 @@ class FileExtensionApiControllerTest extends IntegrationTest {
     FileExtensionSetUp fileExtensionSetUp;
 
     @Test
-    void 확장자_입력_성공() throws Exception {
+    void CUSTOM_확장자_입력_성공() throws Exception {
         //given
         String name = "sh";
-        Status status = Status.CUSTOM;
         FileExtensionPostDto.Request request =
-                FileExtensionPostDto.Request.of(name, status);
+                FileExtensionPostDto.Request.from(name);
         //when
         mvc.perform(post("/api/file-extensions")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -37,7 +36,7 @@ class FileExtensionApiControllerTest extends IntegrationTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.status").value(status.name()));
+                .andExpect(jsonPath("$.status").value(Status.CUSTOM.name()));
 
     }
 

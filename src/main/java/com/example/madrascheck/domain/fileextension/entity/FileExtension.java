@@ -15,7 +15,7 @@ public class FileExtension {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 20)
+    @Column(name = "name", nullable = false, unique = true, length = 20)
     private String name;
 
     @Enumerated(EnumType.STRING)

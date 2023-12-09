@@ -1,7 +1,9 @@
 package com.example.madrascheck.domain.fileextension.service;
 
 import com.example.madrascheck.domain.fileextension.dto.FileExtensionPostDto;
+import com.example.madrascheck.domain.fileextension.entity.FileExtension;
 import com.example.madrascheck.domain.fileextension.exception.AlreadyExistsFileExtensionException;
+import com.example.madrascheck.domain.fileextension.model.DefaultExtension;
 import com.example.madrascheck.domain.fileextension.repository.FileExtensionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,11 @@ public class FileExtensionPostService {
         if(fileExtensionRepository.existsByName(request.getName()))
             throw new AlreadyExistsFileExtensionException();
 
-        return FileExtensionPostDto.Response.from(fileExtensionRepository.save(request.toEntity()));
+        //기본확장자 검사
+        FileExtension fileExtension =
+                DefaultExtension.isDefaultExtension(request.getName()) ? request.toDefaultEntity() : request.toCustomEntity();
+
+        return FileExtensionPostDto.Response.from(fileExtensionRepository.save(fileExtension));
     }
 
 }
