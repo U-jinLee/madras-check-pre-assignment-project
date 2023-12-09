@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -31,33 +32,67 @@ class FileExtensionApiControllerTest extends IntegrationTest {
     FileExtensionSetUp fileExtensionSetUp;
 
     @Test
+    void 확장자_입력_길이검사() throws Exception {
+        //given
+        String name = "thisextensionislongerthanlimit";
+        FileExtensionPostDto.Request request =
+                FileExtensionPostDto.Request.from(name);
+        //when
+        postFileExtensionResultAction(request)
+                //then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").exists())
+                .andExpect(jsonPath("$.status").exists())
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors").exists())
+                .andExpect(jsonPath("$.code").exists());
+    }
+
+    @Test
+    void DEFAULT_확장자_입력_성공() throws Exception {
+        //given
+        String name = "bat";
+        FileExtensionPostDto.Request request =
+                FileExtensionPostDto.Request.from(name);
+        //when
+        postFileExtensionResultAction(request)
+                //then
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value(name))
+                .andExpect(jsonPath("$.status").value(Status.DEFAULT.name()));
+    }
+
+    @Test
     void CUSTOM_확장자_입력_성공() throws Exception {
         //given
         String name = "sh";
         FileExtensionPostDto.Request request =
                 FileExtensionPostDto.Request.from(name);
         //when
-        mvc.perform(post("/api/file-extensions")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andDo(print())
+        postFileExtensionResultAction(request)
                 .andDo(document("post-file-extension",
                         requestFields(
-                                fieldWithPath("name").description("확장자명"),
-                                fieldWithPath("status").description("확장자 상태")
+                                fieldWithPath("name").description("확장자명")
                         ),
                         responseFields(
                                 fieldWithPath("id").description("확장자 ID"),
                                 fieldWithPath("name").description("확장자명"),
                                 fieldWithPath("status").description("확장자 상태")
                         )
-                        ))
+                ))
                 //then
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.status").value(Status.CUSTOM.name()));
+    }
 
+    private ResultActions postFileExtensionResultAction(FileExtensionPostDto.Request request) throws Exception {
+        return mvc.perform(post("/api/file-extensions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andDo(print());
     }
 
     @Test
