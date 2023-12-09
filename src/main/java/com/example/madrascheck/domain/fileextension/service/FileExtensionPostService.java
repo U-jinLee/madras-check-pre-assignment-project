@@ -5,6 +5,7 @@ import com.example.madrascheck.domain.fileextension.entity.FileExtension;
 import com.example.madrascheck.domain.fileextension.exception.AlreadyExistsFileExtensionException;
 import com.example.madrascheck.domain.fileextension.exception.FileExtensionFullException;
 import com.example.madrascheck.domain.fileextension.model.DefaultExtension;
+import com.example.madrascheck.domain.fileextension.model.Status;
 import com.example.madrascheck.domain.fileextension.repository.FileExtensionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class FileExtensionPostService {
     public FileExtensionPostDto.Response post(FileExtensionPostDto.Request request) {
         //검사
         validate(request);
-        //기본확장자 검사 및 저장
+        //기본확장자 확인 및 저장
         FileExtension fileExtension =
                 DefaultExtension.isDefaultExtension(request.getName()) ? request.toDefaultEntity() : request.toCustomEntity();
 
@@ -29,7 +30,7 @@ public class FileExtensionPostService {
 
     private void validate(FileExtensionPostDto.Request request) {
         //파일 확장자 개수 검사
-        if(fileExtensionRepository.count() >= 200) throw new FileExtensionFullException();
+        if(fileExtensionRepository.countByStatus(Status.CUSTOM) >= 200) throw new FileExtensionFullException();
         //파일 확장자 중복 검사
         if(fileExtensionRepository.existsByName(request.getName()))
             throw new AlreadyExistsFileExtensionException();

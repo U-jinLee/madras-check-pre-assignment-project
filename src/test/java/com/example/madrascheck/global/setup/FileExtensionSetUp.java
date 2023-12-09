@@ -25,6 +25,12 @@ public class FileExtensionSetUp {
         return fileExtensionRepository.save(buildFileExtension());
     }
 
+    public void save(int count) {
+        for (int i = 0; i < count; i++) {
+            fileExtensionRepository.save(buildFileExtension("test" + i, Status.CUSTOM));
+        }
+    }
+
     private FileExtension buildFileExtension(String name, Status status) {
         return FileExtension.builder()
                 .name(name)
