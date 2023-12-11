@@ -1,3 +1,4 @@
+//기본 확장자 로직 변경
 document.querySelectorAll(".default-file-extension").forEach(element => {
     element.addEventListener("click", () => {
 
@@ -10,7 +11,7 @@ document.querySelectorAll(".default-file-extension").forEach(element => {
             })
                 .then(response => {
                     if(response.ok == true) {
-                        location.href = "";
+                        element.dataset.id = "0";
                     }
                 })
 
@@ -31,8 +32,11 @@ document.querySelectorAll(".default-file-extension").forEach(element => {
             .then(response => {
 
                 if(response.ok == true) {
-                    location.href = "";
+                    response.json().then(data => {
+                        element.dataset.id = data.id;
+                    })
                 }
+
                 if(response.ok == false) {
                     response.json().then(data => {
 
@@ -40,6 +44,7 @@ document.querySelectorAll(".default-file-extension").forEach(element => {
                         alert(message);
 
                     })
+
                 }
 
 
@@ -49,7 +54,8 @@ document.querySelectorAll(".default-file-extension").forEach(element => {
 
 })
 
-document.getElementById("add-button").addEventListener("click", async () => {
+//파일 확장자 넣기
+document.getElementById("add-button").addEventListener("click", () => {
 
     const request = {
         name: document.getElementById("extension-name").value
@@ -105,6 +111,26 @@ document.getElementById("add-button").addEventListener("click", async () => {
         })
 
 });
+
+//파일 확장자 삭제
+document.querySelectorAll(".material-symbols-outlined").forEach(element => {
+    element.addEventListener("click", () => {
+
+        fetch("/api/file-extensions/" + element.dataset.id, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => {
+                if(response.ok == true) {
+                    element.parentElement.remove();
+                    count.minus();
+                }
+            })
+
+    });
+})
 
 var count = {
     plus: () => {
