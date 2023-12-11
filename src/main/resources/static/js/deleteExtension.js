@@ -6,6 +6,7 @@ document.querySelectorAll('input.default-file-extension:checked').forEach(elemen
 
 document.querySelectorAll(".material-symbols-outlined").forEach(element => {
     element.addEventListener("click", () => {
+
         fetch("/api/file-extensions/" + element.dataset.id, {
             method: "DELETE",
             headers: {

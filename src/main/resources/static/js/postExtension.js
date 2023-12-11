@@ -49,7 +49,12 @@ document.querySelectorAll(".default-file-extension").forEach(element => {
 
 })
 
-document.getElementById("add-button").addEventListener("click", () => {
+let countPlus = () => {
+    let countNow = document.getElementById("count-now").innerText;
+    document.getElementById("count-now").innerText = Number(countNow) + 1;
+}
+
+document.getElementById("add-button").addEventListener("click", async () => {
 
     const request = {
         name: document.getElementById("extension-name").value
@@ -65,10 +70,35 @@ document.getElementById("add-button").addEventListener("click", () => {
         .then(response => {
             document.getElementById("extension-name").value = "";
 
-            if(response.ok == true) {
-                location.href = "";
+            if(response.ok === true) {
+
+                response.json().then(data => {
+                    document.getElementById("chip-wrap").appendChild(maker.chip(data.name, data.id));
+                    countPlus();
+
+                    document.querySelectorAll(".material-symbols-outlined").forEach(element => {
+                        element.addEventListener("click", () => {
+
+                            fetch("/api/file-extensions/" + element.dataset.id, {
+                                method: "DELETE",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            })
+                                .then(response => {
+                                    if(response.ok == true) {
+                                        location.href = "";
+                                    }
+                                })
+
+                        });
+                    })
+
+                })
+
             }
-            if(response.ok == false) {
+
+            if (response.ok === false) {
                 response.json().then(data => {
 
                     let message = data.message == "Invalid Input Value" ? data.errors[0].reason : data.message;

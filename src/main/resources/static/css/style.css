@@ -94,7 +94,7 @@ button {
 }
 
 #count {
-    display: block;
+    display: flex;
 }
 
 #chip-wrap {

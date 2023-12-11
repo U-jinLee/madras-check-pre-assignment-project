@@ -1,6 +1,5 @@
 document.getElementById("add-file").addEventListener("click", () => {
     let file = document.getElementById("file").files[0];
-    console.log(file);
     let formData = new FormData();
     formData.append("file", file);
 
