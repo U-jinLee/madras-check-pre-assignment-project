@@ -49,11 +49,6 @@ document.querySelectorAll(".default-file-extension").forEach(element => {
 
 })
 
-let countPlus = () => {
-    let countNow = document.getElementById("count-now").innerText;
-    document.getElementById("count-now").innerText = Number(countNow) + 1;
-}
-
 document.getElementById("add-button").addEventListener("click", async () => {
 
     const request = {
@@ -71,10 +66,9 @@ document.getElementById("add-button").addEventListener("click", async () => {
             document.getElementById("extension-name").value = "";
 
             if(response.ok === true) {
-
                 response.json().then(data => {
                     document.getElementById("chip-wrap").appendChild(maker.chip(data.name, data.id));
-                    countPlus();
+                    count.plus();
 
                     document.querySelectorAll(".material-symbols-outlined").forEach(element => {
                         element.addEventListener("click", () => {
@@ -87,7 +81,8 @@ document.getElementById("add-button").addEventListener("click", async () => {
                             })
                                 .then(response => {
                                     if(response.ok == true) {
-                                        location.href = "";
+                                        element.parentElement.remove();
+                                        count.minus();
                                     }
                                 })
 
@@ -110,3 +105,14 @@ document.getElementById("add-button").addEventListener("click", async () => {
         })
 
 });
+
+var count = {
+    plus: () => {
+        let countNow = document.getElementById("count-now").innerText;
+        document.getElementById("count-now").innerText = Number(countNow) + 1;
+    },
+    minus : () => {
+        let countNow = document.getElementById("count-now").innerText;
+        document.getElementById("count-now").innerText = Number(countNow) - 1;
+    }
+}

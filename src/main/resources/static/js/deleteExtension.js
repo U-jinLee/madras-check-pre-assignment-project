@@ -15,7 +15,8 @@ document.querySelectorAll(".material-symbols-outlined").forEach(element => {
         })
             .then(response => {
                 if(response.ok == true) {
-                    location.href = "";
+                    element.parentElement.remove();
+                    count.minus();
                 }
             })
 
