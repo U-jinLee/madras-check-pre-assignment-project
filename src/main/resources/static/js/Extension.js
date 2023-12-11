@@ -67,7 +67,7 @@ document.getElementById("add-button").addEventListener("click", async () => {
 
             if(response.ok === true) {
                 response.json().then(data => {
-                    document.getElementById("chip-wrap").appendChild(maker.chip(data.name, data.id));
+                    document.getElementById("chip-wrap").appendChild(nodeMaker.chip(data.name, data.id));
                     count.plus();
 
                     document.querySelectorAll(".material-symbols-outlined").forEach(element => {
@@ -114,5 +114,19 @@ var count = {
     minus : () => {
         let countNow = document.getElementById("count-now").innerText;
         document.getElementById("count-now").innerText = Number(countNow) - 1;
+    }
+}
+
+var nodeMaker = {
+    chip: (name, id) => {
+        let parser = new DOMParser();
+        let result = "<div class=\"chip\">";
+        result += "<div class=\"file-extension-name\">"+ name +"</div>";
+        result += "<span class=\"material-symbols-outlined\" data-id=\""+ id +"\">";
+        result += "close";
+        result += "</span>";
+        result += "</div>";
+
+        return parser.parseFromString(result, 'text/html').body.firstChild;
     }
 }

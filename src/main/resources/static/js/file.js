@@ -9,7 +9,6 @@ document.getElementById("add-file").addEventListener("click", () => {
     }).then(response => {
         if (response.status == '201') {
             alert("파일 등록이 완료됐습니다 🎉");
-            location.href = '';
         }
 
         if(response.ok == false) {
@@ -17,6 +16,8 @@ document.getElementById("add-file").addEventListener("click", () => {
                 alert(data.message);
             })
         }
+
+        location.href = '';
 
     })
 });
